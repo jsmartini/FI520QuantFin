@@ -6,6 +6,11 @@
 
 using namespace std;
 
-void test(){
-    cout << "this is somehow working" << endl;
-}
+namespace QLib
+{
+
+    void test(){
+        cout << "this is somehow working" << endl;
+    };
+
+};

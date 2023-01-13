@@ -13,5 +13,5 @@ include_directories(${PROJECT_SOURCE_DIR}/Dep/gcem/include)
 # class specific code for developing applications
 include_directories(${PROJECT_SOURCE_DIR}/QLib/inc)
 
-add_executable(Assignment1 Main/assignment1.cpp)
-add_executable(Assignment2 Main/assignment2.cpp)
+add_executable(BuildSysTest Main/BuildSystemTest.cpp)
+#add_executable(Assignment2 Main/assignment2.cpp)
