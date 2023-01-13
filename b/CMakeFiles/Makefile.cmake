@@ -126,6 +126,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/Assignment1.dir/DependInfo.cmake"
-  "CMakeFiles/Assignment2.dir/DependInfo.cmake"
+  "CMakeFiles/BuildSysTest.dir/DependInfo.cmake"
   )

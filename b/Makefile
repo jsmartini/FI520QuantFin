@@ -120,78 +120,41 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named Assignment1
+# Target rules for targets named BuildSysTest
 
 # Build rule for target.
-Assignment1: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Assignment1
-.PHONY : Assignment1
+BuildSysTest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 BuildSysTest
+.PHONY : BuildSysTest
 
 # fast build rule for target.
-Assignment1/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Assignment1.dir/build.make CMakeFiles/Assignment1.dir/build
-.PHONY : Assignment1/fast
+BuildSysTest/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BuildSysTest.dir/build.make CMakeFiles/BuildSysTest.dir/build
+.PHONY : BuildSysTest/fast
 
-#=============================================================================
-# Target rules for targets named Assignment2
-
-# Build rule for target.
-Assignment2: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Assignment2
-.PHONY : Assignment2
-
-# fast build rule for target.
-Assignment2/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Assignment2.dir/build.make CMakeFiles/Assignment2.dir/build
-.PHONY : Assignment2/fast
-
-Main/assignment1.o: Main/assignment1.cpp.o
-.PHONY : Main/assignment1.o
+Main/BuildSystemTest.o: Main/BuildSystemTest.cpp.o
+.PHONY : Main/BuildSystemTest.o
 
 # target to build an object file
-Main/assignment1.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Assignment1.dir/build.make CMakeFiles/Assignment1.dir/Main/assignment1.cpp.o
-.PHONY : Main/assignment1.cpp.o
+Main/BuildSystemTest.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BuildSysTest.dir/build.make CMakeFiles/BuildSysTest.dir/Main/BuildSystemTest.cpp.o
+.PHONY : Main/BuildSystemTest.cpp.o
 
-Main/assignment1.i: Main/assignment1.cpp.i
-.PHONY : Main/assignment1.i
-
-# target to preprocess a source file
-Main/assignment1.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Assignment1.dir/build.make CMakeFiles/Assignment1.dir/Main/assignment1.cpp.i
-.PHONY : Main/assignment1.cpp.i
-
-Main/assignment1.s: Main/assignment1.cpp.s
-.PHONY : Main/assignment1.s
-
-# target to generate assembly for a file
-Main/assignment1.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Assignment1.dir/build.make CMakeFiles/Assignment1.dir/Main/assignment1.cpp.s
-.PHONY : Main/assignment1.cpp.s
-
-Main/assignment2.o: Main/assignment2.cpp.o
-.PHONY : Main/assignment2.o
-
-# target to build an object file
-Main/assignment2.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Assignment2.dir/build.make CMakeFiles/Assignment2.dir/Main/assignment2.cpp.o
-.PHONY : Main/assignment2.cpp.o
-
-Main/assignment2.i: Main/assignment2.cpp.i
-.PHONY : Main/assignment2.i
+Main/BuildSystemTest.i: Main/BuildSystemTest.cpp.i
+.PHONY : Main/BuildSystemTest.i
 
 # target to preprocess a source file
-Main/assignment2.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Assignment2.dir/build.make CMakeFiles/Assignment2.dir/Main/assignment2.cpp.i
-.PHONY : Main/assignment2.cpp.i
+Main/BuildSystemTest.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BuildSysTest.dir/build.make CMakeFiles/BuildSysTest.dir/Main/BuildSystemTest.cpp.i
+.PHONY : Main/BuildSystemTest.cpp.i
 
-Main/assignment2.s: Main/assignment2.cpp.s
-.PHONY : Main/assignment2.s
+Main/BuildSystemTest.s: Main/BuildSystemTest.cpp.s
+.PHONY : Main/BuildSystemTest.s
 
 # target to generate assembly for a file
-Main/assignment2.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Assignment2.dir/build.make CMakeFiles/Assignment2.dir/Main/assignment2.cpp.s
-.PHONY : Main/assignment2.cpp.s
+Main/BuildSystemTest.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BuildSysTest.dir/build.make CMakeFiles/BuildSysTest.dir/Main/BuildSystemTest.cpp.s
+.PHONY : Main/BuildSystemTest.cpp.s
 
 # Help Target
 help:
@@ -201,14 +164,10 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... Assignment1"
-	@echo "... Assignment2"
-	@echo "... Main/assignment1.o"
-	@echo "... Main/assignment1.i"
-	@echo "... Main/assignment1.s"
-	@echo "... Main/assignment2.o"
-	@echo "... Main/assignment2.i"
-	@echo "... Main/assignment2.s"
+	@echo "... BuildSysTest"
+	@echo "... Main/BuildSystemTest.o"
+	@echo "... Main/BuildSystemTest.i"
+	@echo "... Main/BuildSystemTest.s"
 .PHONY : help
 
 

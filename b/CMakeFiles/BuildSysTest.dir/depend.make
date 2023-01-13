@@ -1,2 +1,2 @@
-# Empty dependencies file for Assignment2.
+# Empty dependencies file for BuildSysTest.
 # This may be replaced when dependencies are built.
