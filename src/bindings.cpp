@@ -14,5 +14,10 @@ namespace py = pybind11;
 // bind C++  to python3 here
 PYBIND11_MODULE(QLib, m)
 {
-
+    // test bindings
+    m.def(
+        "ver",
+        &QLib::version,
+        "version function"
+    );
 };

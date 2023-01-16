@@ -1,3 +1,0 @@
-/home/jsmartini/Desktop/FI520QuantFin/b/CMakeFiles/BuildSysTest.dir
-/home/jsmartini/Desktop/FI520QuantFin/b/CMakeFiles/edit_cache.dir
-/home/jsmartini/Desktop/FI520QuantFin/b/CMakeFiles/rebuild_cache.dir

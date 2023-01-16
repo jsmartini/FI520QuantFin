@@ -9,6 +9,8 @@
 // bond related functions
 #include "bonds/bonds.hpp"
 // expose common namespace
+#define VERSION "0.0.1"
+
 namespace QLib {
     
     void buildtest(){
@@ -16,6 +18,10 @@ namespace QLib {
         // and executable
 
         cout << "this is somehow working" << endl;
+    };
+
+    void version(){
+        cout << "FI520 QLib:\t" << VERSION << endl;
     };
 
 };
