@@ -21,14 +21,13 @@ src/bindings.cpp
 
 CMakeLists.txt and setup.py taken from -> https://github.com/pybind/cmake_example
 
-
-
-### Pybind11
 1/15/23 - python3 bindings are working!
 
 >import QLib
 >QLib.ver()
 FI520 QLib:     0.0.1
+ 
+
 
 This file needs to be in the same directory python3 is invoked!
 build/QLib.cpython-310-x86_64-linux-gnu.so
