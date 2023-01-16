@@ -1,0 +1,7 @@
+# ninja log v5
+1	2050	1673845039099541511	CMakeFiles/BuildSysTest.dir/Binaries/BuildSystemTest.cpp.o	aa6d571d21090b9d
+2053	2107	1673845039162874625	BuildSysTest	cc7071598021cd93
+1	2333	1673845039379540542	CMakeFiles/QLib.dir/src/bindings.cpp.o	de58638196fb50f5
+2334	2436	1673845039492873483	QLib.cpython-310-x86_64-linux-gnu.so	f30f40c0c5d856bb
+3	3519	1673845073292767827	CMakeFiles/QLib.dir/src/bindings.cpp.o	de58638196fb50f5
+3519	3618	1673845073406100844	QLib.cpython-310-x86_64-linux-gnu.so	f30f40c0c5d856bb

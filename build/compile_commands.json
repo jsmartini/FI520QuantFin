@@ -1,0 +1,12 @@
+[
+{
+  "directory": "/home/jsmartini/Desktop/FI520QuantFin/build",
+  "command": "/usr/bin/clang++ -DQLib_EXPORTS -DVERSION_INFO=\"\" -I/home/jsmartini/Desktop/FI520QuantFin/Dep/eigen -I/home/jsmartini/Desktop/FI520QuantFin/Dep/stats/include -I/home/jsmartini/Desktop/FI520QuantFin/Dep/gcem/include -I/home/jsmartini/Desktop/FI520QuantFin/Dep/boost -I/home/jsmartini/Desktop/FI520QuantFin/QLib/inc -isystem /home/jsmartini/Desktop/FI520QuantFin/Dep/pybind11/include -isystem /usr/include/python3.10 -g -fPIC -fvisibility=hidden -std=gnu++17 -o CMakeFiles/QLib.dir/src/bindings.cpp.o -c /home/jsmartini/Desktop/FI520QuantFin/src/bindings.cpp",
+  "file": "/home/jsmartini/Desktop/FI520QuantFin/src/bindings.cpp"
+},
+{
+  "directory": "/home/jsmartini/Desktop/FI520QuantFin/build",
+  "command": "/usr/bin/clang++ -I/home/jsmartini/Desktop/FI520QuantFin/Dep/eigen -I/home/jsmartini/Desktop/FI520QuantFin/Dep/stats/include -I/home/jsmartini/Desktop/FI520QuantFin/Dep/gcem/include -I/home/jsmartini/Desktop/FI520QuantFin/Dep/boost -I/home/jsmartini/Desktop/FI520QuantFin/QLib/inc -g -std=gnu++17 -o CMakeFiles/BuildSysTest.dir/Binaries/BuildSystemTest.cpp.o -c /home/jsmartini/Desktop/FI520QuantFin/Binaries/BuildSystemTest.cpp",
+  "file": "/home/jsmartini/Desktop/FI520QuantFin/Binaries/BuildSystemTest.cpp"
+}
+]
