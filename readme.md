@@ -1,5 +1,9 @@
 This is the repository for FI520 class for quant finance
 
+####!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+###After cloning this library using git run this:
+>>> git submodule update --init --recursive
+
 Project Structure
 - Dep
   - eigen (eigen 3 linalg library)
