@@ -16,12 +16,10 @@ namespace QLib {
     void buildtest(){
         // demonstrates that the cmake build system is able to find this function and compile it into
         // and executable
-
         cout << "this is somehow working" << endl;
     };
 
-    void version(){
-        cout << "FI520 QLib:\t" << VERSION << endl;
-    };
+    int build_test_fib(int i){return i == 0 ? 1 : i * build_test_fib(i-1);};
+    void version(){cout << "FI520 QLib:\t" << VERSION << endl;};
 
 };

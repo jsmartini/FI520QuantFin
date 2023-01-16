@@ -1,0 +1,166 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2
+					],
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.9"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						3,
+						4
+					]
+				},
+				{
+					"build" : "Dep/pybind11",
+					"jsonFile" : "directory-Dep.pybind11-Debug-017e2e56fe4a41066972.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.4"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "Dep/pybind11"
+				},
+				{
+					"build" : "Dep/Catch2",
+					"childIndexes" : 
+					[
+						3
+					],
+					"jsonFile" : "directory-Dep.Catch2-Debug-cfcd7674f849adf676ae.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 2,
+					"source" : "Dep/Catch2"
+				},
+				{
+					"build" : "Dep/Catch2/src",
+					"jsonFile" : "directory-Dep.Catch2.src-Debug-7f6437acd8c367c59542.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 2,
+					"source" : "Dep/Catch2/src",
+					"targetIndexes" : 
+					[
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						2
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "FI520",
+					"targetIndexes" : 
+					[
+						0,
+						3,
+						4
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "pybind11",
+					"parentIndex" : 0
+				},
+				{
+					"directoryIndexes" : 
+					[
+						2,
+						3
+					],
+					"name" : "Catch2",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "BuildSysTest::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-BuildSysTest-Debug-c66477f35a4964dc95e7.json",
+					"name" : "BuildSysTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "Catch2::@7200ace800c6817d8a04",
+					"jsonFile" : "target-Catch2-Debug-cec1bcecded58f604dc1.json",
+					"name" : "Catch2",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "Catch2WithMain::@7200ace800c6817d8a04",
+					"jsonFile" : "target-Catch2WithMain-Debug-3fd9dc70933ca629bc6f.json",
+					"name" : "Catch2WithMain",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "QLib::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-QLib-Debug-5e8854fa5b6952f07ebc.json",
+					"name" : "QLib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "unit_test1::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-unit_test1-Debug-58a173dba1be4401b475.json",
+					"name" : "unit_test1",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/jsmartini/Desktop/FI520QuantFin/build",
+		"source" : "/home/jsmartini/Desktop/FI520QuantFin"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 4
+	}
+}

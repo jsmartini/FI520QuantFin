@@ -1,6 +1,13 @@
 /home/jsmartini/Desktop/FI520QuantFin/build/CMakeFiles/QLib.dir
 /home/jsmartini/Desktop/FI520QuantFin/build/CMakeFiles/BuildSysTest.dir
+/home/jsmartini/Desktop/FI520QuantFin/build/CMakeFiles/unit_test1.dir
 /home/jsmartini/Desktop/FI520QuantFin/build/CMakeFiles/edit_cache.dir
 /home/jsmartini/Desktop/FI520QuantFin/build/CMakeFiles/rebuild_cache.dir
 /home/jsmartini/Desktop/FI520QuantFin/build/Dep/pybind11/CMakeFiles/edit_cache.dir
 /home/jsmartini/Desktop/FI520QuantFin/build/Dep/pybind11/CMakeFiles/rebuild_cache.dir
+/home/jsmartini/Desktop/FI520QuantFin/build/Dep/Catch2/CMakeFiles/edit_cache.dir
+/home/jsmartini/Desktop/FI520QuantFin/build/Dep/Catch2/CMakeFiles/rebuild_cache.dir
+/home/jsmartini/Desktop/FI520QuantFin/build/Dep/Catch2/src/CMakeFiles/Catch2.dir
+/home/jsmartini/Desktop/FI520QuantFin/build/Dep/Catch2/src/CMakeFiles/Catch2WithMain.dir
+/home/jsmartini/Desktop/FI520QuantFin/build/Dep/Catch2/src/CMakeFiles/edit_cache.dir
+/home/jsmartini/Desktop/FI520QuantFin/build/Dep/Catch2/src/CMakeFiles/rebuild_cache.dir

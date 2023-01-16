@@ -369,3 +369,13 @@ Run Build Command(s):/usr/bin/ninja cmTC_42e36 && [1/2] Building CXX object CMak
 Source file was:
 int main() { return 0; }
 
+Performing C++ SOURCE FILE Test HAVE_FLAG__ffile_prefix_map__home_jsmartini_Desktop_FI520QuantFin_Dep_Catch2__ succeeded with the following output:
+Change Dir: /home/jsmartini/Desktop/FI520QuantFin/build/CMakeFiles/CMakeScratch/TryCompile-2qA8HW
+
+Run Build Command(s):/usr/bin/ninja cmTC_305e2 && [1/2] Building CXX object CMakeFiles/cmTC_305e2.dir/src.cxx.o
+[2/2] Linking CXX executable cmTC_305e2
+
+
+Source file was:
+int main() { return 0; }
+
