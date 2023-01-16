@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "QLib.cpython-310-x86_64-linux-gnu.so"
+			"path" : "/home/jsmartini/Desktop/FI520QuantFin/WorkSpace/QLib.cpython-310-x86_64-linux-gnu.so"
 		}
 	],
 	"backtrace" : 2,
@@ -29,7 +29,7 @@
 			{
 				"command" : 1,
 				"file" : 1,
-				"line" : 20,
+				"line" : 21,
 				"parent" : 0
 			},
 			{
@@ -41,13 +41,7 @@
 			{
 				"command" : 2,
 				"file" : 1,
-				"line" : 34,
-				"parent" : 0
-			},
-			{
-				"command" : 3,
-				"file" : 1,
-				"line" : 9,
+				"line" : 37,
 				"parent" : 0
 			},
 			{
@@ -77,7 +71,13 @@
 			{
 				"command" : 3,
 				"file" : 1,
-				"line" : 16,
+				"line" : 14,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 17,
 				"parent" : 0
 			},
 			{

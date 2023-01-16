@@ -63,14 +63,14 @@ build CMakeFiles/QLib.dir/src/bindings.cpp.o: CXX_COMPILER__QLib_Debug /home/jsm
 
 
 #############################################
-# Link the shared module QLib.cpython-310-x86_64-linux-gnu.so
+# Link the shared module /home/jsmartini/Desktop/FI520QuantFin/WorkSpace/QLib.cpython-310-x86_64-linux-gnu.so
 
-build QLib.cpython-310-x86_64-linux-gnu.so: CXX_MODULE_LIBRARY_LINKER__QLib_Debug CMakeFiles/QLib.dir/src/bindings.cpp.o
+build /home/jsmartini/Desktop/FI520QuantFin/WorkSpace/QLib.cpython-310-x86_64-linux-gnu.so: CXX_MODULE_LIBRARY_LINKER__QLib_Debug CMakeFiles/QLib.dir/src/bindings.cpp.o
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = CMakeFiles/QLib.dir
   POST_BUILD = :
   PRE_LINK = :
-  TARGET_FILE = QLib.cpython-310-x86_64-linux-gnu.so
+  TARGET_FILE = /home/jsmartini/Desktop/FI520QuantFin/WorkSpace/QLib.cpython-310-x86_64-linux-gnu.so
   TARGET_PDB = QLib.cpython-310-x86_64-linux-gnu.so.dbg
 
 # =============================================================================
@@ -1034,7 +1034,9 @@ build Catch2: phony Dep/Catch2/src/libCatch2d.a
 
 build Catch2WithMain: phony Dep/Catch2/src/libCatch2Maind.a
 
-build QLib: phony QLib.cpython-310-x86_64-linux-gnu.so
+build QLib: phony /home/jsmartini/Desktop/FI520QuantFin/WorkSpace/QLib.cpython-310-x86_64-linux-gnu.so
+
+build QLib.cpython-310-x86_64-linux-gnu.so: phony /home/jsmartini/Desktop/FI520QuantFin/WorkSpace/QLib.cpython-310-x86_64-linux-gnu.so
 
 build libCatch2Maind.a: phony Dep/Catch2/src/libCatch2Maind.a
 
@@ -1048,7 +1050,7 @@ build libCatch2d.a: phony Dep/Catch2/src/libCatch2d.a
 #############################################
 # Folder: /home/jsmartini/Desktop/FI520QuantFin/build
 
-build all: phony QLib.cpython-310-x86_64-linux-gnu.so BuildSysTest unit_test1 Dep/pybind11/all Dep/Catch2/all
+build all: phony /home/jsmartini/Desktop/FI520QuantFin/WorkSpace/QLib.cpython-310-x86_64-linux-gnu.so BuildSysTest unit_test1 Dep/pybind11/all Dep/Catch2/all
 
 # =============================================================================
 
