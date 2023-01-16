@@ -112,3 +112,7 @@
 845	2054	1673847709094361260	Dep/Catch2/src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_xml.cpp.o	6c7ed83a324383a7
 1941	2809	1673847709851030319	Dep/Catch2/src/CMakeFiles/Catch2.dir/catch2/internal/catch_assertion_handler.cpp.o	6010850080e39502
 471	1974	1673847812841365110	Dep/Catch2/src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_case_registry_impl.cpp.o	f664c5e903560263
+5	4016	1673851246213371948	CMakeFiles/QLib.dir/src/bindings.cpp.o	b3c2b07269eb32aa
+4016	4122	1673851246333372348	/home/jsmartini/Desktop/FI520QuantFin/WorkSpace/QLib.cpython-310-x86_64-linux-gnu.so	49352350214314cb
+3	3476	1673851517070846784	CMakeFiles/QLib.dir/src/bindings.cpp.o	b3c2b07269eb32aa
+3476	3566	1673851517170847054	/home/jsmartini/Desktop/FI520QuantFin/WorkSpace/QLib.cpython-310-x86_64-linux-gnu.so	49352350214314cb
