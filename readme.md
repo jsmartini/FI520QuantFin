@@ -31,4 +31,4 @@ CMakeLists.txt and setup.py taken from -> https://github.com/pybind/cmake_exampl
 FI520 QLib:     0.0.1
 
 This file needs to be in the same directory python3 is invoked!
-- build/QLib.cpython-310-x86_64-linux-gnu.so
+build/QLib.cpython-310-x86_64-linux-gnu.so
