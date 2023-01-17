@@ -1,8 +1,5 @@
 This is the repository for FI520 class for quant finance
 
-####!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-###After cloning this library using git run this:
->>> git submodule update --init --recursive
 
 Project Structure
 - Dep
@@ -26,11 +23,6 @@ src/bindings.cpp
 CMakeLists.txt and setup.py taken from -> https://github.com/pybind/cmake_example
 
 1/15/23 - python3 bindings are working!
-
->import QLib
->QLib.ver()
-FI520 QLib:     0.0.1
- 
 
 
 This file needs to be in the same directory python3 is invoked!
