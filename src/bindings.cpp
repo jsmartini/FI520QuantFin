@@ -15,9 +15,8 @@ namespace py = pybind11;
 PYBIND11_MODULE(QLib, m)
 {
     // test bindings
-    m.def(
-        "ver",
-        &QLib::version,
-        "version function"
-    );
+    m.def("ver",&QLib::version,"version function");
+    py::module bonds = m.def_submodule("Bonds", "Bonds Library");
+    bonds.def("bondF",&QLib::bondF,"f = NAD/NTD (fraction of coupon payment period that has elapsed already)");
+    bonds.def("bondNRemaining", &QLib::bondNRemaining, "number of periods remaining <int>");
 };

@@ -1,81 +1,89 @@
 #pragma once
 
 /*
-    Bond Calculations Class
-
-    Assignment 1
-    Assigned	Tasks
-1. Develop generic intermediate bond functions that can handle the following tasks:
-a. Solve for N (number of remaining cash flows in the bond)
-b. Solve for f = NAD/NTD (fraction of coupon payment period that has elapsed already)
-NAD = number of accrued days since last coupon payment
-NTD = number of total days between last coupon payment and next coupon payment
-(Ignore holiday and week-end effects such as “modified business following.”)
-2. Develop generic bond functions that can calculate the following and demonstrate your
-functions are consistent with the Bloomberg screen shot above.
-a. Market Value of Bond ($979,228.25)
-b. Accrued Interest ($3,915.75)
-c. Quoted Bond Price ($975,312.50)
-3. Develop a generic function to compute yield to maturity (on a semi-annual, bond equivalent
-basis) and demonstrate your function is consistent with the Bloomberg screen shot above,
-2.535235%)
-4. Plot the relationship between yield to maturity (y = 0 to 20%) and the Market Value of Bond.
-Overlay a zero coupon bond as well as a 4.5% coupon bond.
-5. Plot the relationship between time to maturity (In years = Current to 0) and the Market Value of
-Bond assuming the remaining parameters remain the same (e.g., yield to maturity). Be sure to
-make your time steps small (e.g., less than one month). Overlay a zero coupon bond as well as
-a 4.5% coupon bond.
-6. Repeat #1 and #2 with the following three updated information sets:
-
-
+    Bond Calculation Header File
 */
 
-#include <Eigen/Dense>
-#include "stats.hpp"
 #include <iostream>
-#include <boost/date_time.hpp>
+#include <boost/date_time.hpp>      // https://www.boost.org/doc/libs/1_31_0/libs/date_time/doc/class_date.html
+#include <vector>
+#include <algorithm>
+#include <iterator>
 
-namespace bt = boost::gregorian;
+namespace bt = boost::gregorian;    // use time library from boost 
 
-#include <map>  // expose output as dictionary-like object in python
 
 using namespace std;
 
 namespace QLib
 {
 
-    class Bond 
+        /*
+            Inputs Needed (with examples based on data above):
+            • Settle date (1/17/18)
+            • Maturity date (11/15/27)
+            • Coupon payment frequency per year (m = 2)
+            • Annualized coupon rate in percent (C = 2.25, in decimal form in equations below)
+            • Number of remaining coupon payments (N = 20)
+            • Fraction of coupon payment period that has elapsed already (f = 63/181 = 0.348066, in
+            decimal)
+            • Annualized yield to maturity in percent (y = 2.535235, in decimal form in equations below)
+            • Par value in dollars (Par = $1,000,000)
+        
+        */
+
+    double bondF(string current_date, string settle_date, string maturity_date, unsigned int coupon_payment_frequency)
     {
-        public: 
-
-            // Bond Object Constructor
-            Bond(
-                string settle_date,
-                string maturity_date,
-                unsigned int m,
-                double C,
-                unsigned int N,
-                double f,
-                double y,
-                double Par
-            ) : m(m), C(C), N(N), f(f), y(y), Par(Par)  // directly assign this to the class values
-            {
-                // convert string denoted time into boost datetime objects for operations
-                this->settle_date = bt::from_simple_string(settle_date);
-                this->maturity_date = bt::from_simple_string(maturity_date);
-            };
-        
-
-        
-        private:
-            bt::date settle_date;
-            bt::date maturity_date;
-            unsigned int m;
-            double C;
-            unsigned int N;
-            double f;
-            double y;
-            double Par;
+        // convert strings into bt::date objects 
+        // allows +- operations with sepcification for time resolution .days, .weeks, .years etc
+        // assuming gregorian calendar
+        // using From delimited date string where with order iso standard ordering: year-month-day (eg: 2002-1-25)
+        bt::date current = bt::from_simple_string(current_date);
+        bt::date settle = bt::from_simple_string(settle_date);
+        bt::date maturity = bt::from_simple_string(maturity_date);
+        vector<bt::date> payment_schedule;
+        // find days between each payment
+        double days_between_payment = (double)(365/coupon_payment_frequency);   // assuming 365 days in a year
+        // initialize the array for loop comparison
+        payment_schedule.push_back(settle + bt::days(days_between_payment));
+        //generate payment schedule
+        while ((payment_schedule.back() + bt::days(days_between_payment)) <= maturity) 
+            payment_schedule.push_back(payment_schedule.back() + bt::days(days_between_payment));
+            // POSSBILE ERROR :: returns the next highest idx. Literally same output as std::upper_bound
+        vector<bt::date>::iterator closest_prior_payment = lower_bound(payment_schedule.begin(), payment_schedule.end(), current); // find closest date (lower bounded)
+        double days_since_last_payment = (current - (*(closest_prior_payment-1))).days();
+        return days_since_last_payment / days_between_payment;      // f = NAD/NTD
     };
 
+    int bondNRemaining(string current_date, string settle_date, string maturity_date, unsigned int coupon_payment_frequency)
+    {
+        // convert strings into bt::date objects 
+        // allows +- operations with sepcification for time resolution .days, .weeks, .years etc
+        // assuming gregorian calendar
+        // using From delimited date string where with order iso standard ordering: year-month-day (eg: 2002-1-25)
+        bt::date current = bt::from_simple_string(current_date);
+        bt::date settle = bt::from_simple_string(settle_date);
+        bt::date maturity = bt::from_simple_string(maturity_date);
+        vector<bt::date> payment_schedule;
+        // find days between each payment
+        double days_between_payment = (double)(365/coupon_payment_frequency);   // assuming 365 days in a year
+        // initialize the array for loop comparison
+        payment_schedule.push_back(settle + bt::days(days_between_payment));
+        //generate payment schedule
+        while ((payment_schedule.back() + bt::days(days_between_payment)) <= maturity) 
+            payment_schedule.push_back(payment_schedule.back() + bt::days(days_between_payment));
+        vector<bt::date>::iterator closest_prior_payment = upper_bound(payment_schedule.begin(), payment_schedule.end(), current); // find closest date (lower bounded)
+        return std::distance(closest_prior_payment,payment_schedule.end());
+    };
+
+    /*
+    double bondMarketValue(string current, string settle, string maturity, unsigned int coupon_payment_frequency, double coupon_rate);
+    
+    double bondAccruedInterest(string current, string settle, string maturity, unsigned int coupon_payment_frequency, double coupon_rate);
+
+    double bondQuotePrice(string current, string settle, string maturity, unsigned int coupon_payment_frequency, double coupon_rate){
+        return bondMarketValue(current,settle,maturity,coupon_payment_frequency,coupon_rate) - bondAccruedInterest(current,settle,maturity,coupon_payment_frequency,coupon_rate);
+    };
+    */
+ 
 };
