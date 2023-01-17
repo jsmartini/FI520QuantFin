@@ -112,3 +112,9 @@
 61	876	1673847811738028099	Dep/Catch2/src/CMakeFiles/Catch2.dir/catch2/internal/catch_section.cpp.o	8a0b8eecc497e5bd
 325	654	1673847811521360710	Dep/Catch2/src/CMakeFiles/Catch2.dir/catch2/internal/catch_startup_exception_registry.cpp.o	3d2ca0a540504509
 876	1649	1673847812518030699	Dep/Catch2/src/CMakeFiles/Catch2.dir/catch2/internal/catch_xmlwriter.cpp.o	3267d1316e4e16f9
+8	6196	1673985964813780352	CMakeFiles/QLib.dir/src/bindings.cpp.o	b3c2b07269eb32aa
+6196	6371	1673985965023873523	/home/jsmartini/Desktop/FI520QuantFin/WorkSpace/QLib.cpython-310-x86_64-linux-gnu.so	49352350214314cb
+7	4667	1673985976808823253	CMakeFiles/BuildSysTest.dir/Binaries/BuildSystemTest.cpp.o	214811622d39e505
+4668	4788	1673985976945544594	BuildSysTest	cc7071598021cd93
+6	3693	1673985989060122695	CMakeFiles/unit_test1.dir/tests/unit_test1.cpp.o	22293a24ea4c6e22
+3693	4435	1673985989807055780	unit_test1	3b6a7fa94b278081

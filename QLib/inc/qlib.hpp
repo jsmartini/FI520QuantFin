@@ -8,6 +8,8 @@
 
 // bond related functions
 #include "bonds/bonds.hpp"
+#include "valuation/valuation.hpp"
+#include "opt/optimization.hpp"
 // expose common namespace
 #define VERSION "0.0.1"
 

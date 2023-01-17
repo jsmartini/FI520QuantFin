@@ -1,0 +1,357 @@
+---
+title: "Module 4.2. Valuation Bond Test"
+author: "Robert Brooks"
+date: "8/7/2019"
+output:
+  word_document: default
+  pdf_document: default
+---
+```{r, echo=FALSE, message=FALSE, results="hide"}
+# A1.8 Word Document.Rmd
+# Insight: R can produce MS Word files with ease
+# Illustration of knitr
+#  Library must be installed to turn echo off
+library("knitr")
+opts_chunk$set(echo=FALSE)
+PackagesToLibrary <- c("png","grDevices", "scales") # Libraries
+if (length(setdiff(PackagesToLibrary, rownames(installed.packages()))) > 0) {
+  install.packages(setdiff(PackagesToLibrary, rownames(installed.packages())))  
+} # Make sure libraries are installed on this computer
+# Load and attach libraries
+lapply(PackagesToLibrary,library,character.only = TRUE) 
+rm(PackagesToLibrary)
+# Globally set fonts for graphs: Great for consistency in documents
+par(family = 'Times New Roman') 
+#Note: Boarder for code (grey line to left here) is not boarder for document
+```
+
+``` {r, echo=FALSE, message=FALSE, results="hide"}
+
+# {r code=readLines("Valuation Bond For RMD Test.R"), echo = FALSE}
+# Valuation Bond Test.R
+# rmarkdown::render("Valuation Bond Test.R", "word_document"
+rm(list = ls())  # Take out the Environment "trash"
+cat("\014") # Clear Console, making error checking easier.
+while (!is.null(dev.list()))  dev.off() # Clear old plots
+# par(family = 'Times New Roman') # Globally set fonts for graphs
+Packages <- c("date", "optimx", "png", "grDevices") 
+if(length(setdiff(Packages, rownames(installed.packages()))) > 0) {
+  install.packages(setdiff(Packages, rownames(installed.packages())))
+} # Make sure libraries are installed on this computer
+lapply(Packages, library, character.only=TRUE) # Load and attach libraries
+rm(Packages)
+#
+# Inputs for single bond, CMT rates, and spreads
+#
+FixRange <- FALSE
+source("Bond Inputs.R")
+#
+# Bond functions for individual bonds
+#
+source("BOND Functions.R")
+BONDInputData <- list(inputFrequency, inputCouponRate, inputPar, 
+  inputYieldToMaturity, inputBondPrice, 
+  SettlementDateMonth, SettlementDateDay, SettlementDateYear, 
+  MaturityDateMonth, MaturityDateDay, MaturityDateYear)
+names(BONDInputData) <- c("Frequency", "CouponRate", "Par", 
+  "YieldToMaturity", "BondPrice", 
+  "SettlementDateMonth", "SettlementDateDay", "SettlementDateYear", 
+  "MaturityDateMonth", "MaturityDateDay", "MaturityDateYear")
+#
+# Calendar manipulations
+#
+N = CouponsRemaining(BONDInputData)
+# ElapsedOutput contains fraction, JLastDate, JNextDate, and JCurrentDate
+ElapsedOutput = Elapsed(BONDInputData)
+# Number of Total Days
+NTD <- ElapsedOutput$NextDate - ElapsedOutput$LastDate
+# Number of Accrued Days since last semi-annual coupon
+NAD <- ElapsedOutput$Fraction * NTD
+# Fraction of coupon period that has elapsed already
+f <- ElapsedOutput$Fraction
+# Bond maturity, in years
+Mat <- TimeToMaturity(BONDInputData)
+```
+# Single Bond Analysis
+
+**Parameters Provided**:  
+Settlement Date: `r BONDInputData$SettlementDateMonth`/
+  `r BONDInputData$SettlementDateDay`/`r BONDInputData$SettlementDateYear`  
+Maturity Date: `r BONDInputData$MaturityDateMonth`/
+  `r BONDInputData$MaturityDateDay`/`r BONDInputData$MaturityDateYear`  
+Bond Price: `r dollar(ActualBondPrice)`  
+Coupon Rate: `r BONDInputData$CouponRate`  
+Yield to Maturity: `r percent(BONDInputData$YieldToMaturity/100)`  
+Par: `r dollar(BONDInputData$Par)`  
+Payment Frequency: `r BONDInputData$Frequency`  
+
+**Preliminary Analysis**:  
+Number of Accrued Days: `r NAD`  
+Number of Total Days: `r NTD`  
+Fraction of period that has already elapsed: `r percent(f)` of semi-annual period  
+Number of remaining coupon payments: `r N`  
+Time to bond maturity: `r round(Mat,3)` years
+
+``` {r, echo = FALSE}
+#
+# Bond value given yield to maturity
+#
+ModelValueOfBond = BondValue(BONDInputData)
+AccruedInterestAmount = AccruedInterest(BONDInputData)
+QuotedModelBondPrice = ModelValueOfBond - AccruedInterestAmount
+```
+**Bond Valuation Analysis**:  
+Model Value of Bond: `r dollar(ModelValueOfBond)`  
+Quoted Value of Bond: `r dollar(ActualBondPrice + AccruedInterestAmount)`  
+Quoted Model Value of Bond: `r dollar(QuotedModelBondPrice)`  
+Quoted Price of Bond: `r dollar(ActualBondPrice)`    
+Accrued Interest Amount: `r dollar(AccruedInterestAmount)`  
+Model Error: `r dollar(QuotedModelBondPrice - ActualBondPrice)` (Model - Actual)  
+
+``` {r, echo = FALSE}
+#
+# Yield to maturity given bond value
+#
+inputBondPrice = ActualBondPrice #Dollars:Quoted price w/o accrued interest
+BONDInputData$BondPrice <- inputBondPrice
+EstYieldToMaturity = YieldToMaturitySolver(BONDInputData)
+```
+**Bond Yield To Maturity Analysis**:  
+Model Yield to Maturity: `r percent(EstYieldToMaturity/100)`  
+Actual Yield to Maturity: `r percent(inputYieldToMaturity/100)`    
+Model Error: `r percent(EstYieldToMaturity/100 - inputYieldToMaturity/100)`
+ (Model - Actual)    
+ 
+``` {r, echo = FALSE}
+#
+# Build zero coupon, annualized, cont. compounded, discount rate curve
+#  Inputs: NFactors - Number of factors
+#  NBaseCurve - Number of bonds. MarketCMTRates=int. vector 1 to NBaseCurve
+#
+# # Test inputs
+# BONDInputData <- list(inputFrequency, inputCMTCouponRate, inputCMTPar,
+#   inputCMTYieldToMaturity, inputCMTBondPrice, 
+#   CMTSettlementDateMonth, CMTSettlementDateDay, CMTSettlementDateYear, 
+#   CMTMaturityDateMonth, CMTMaturityDateDay, CMTMaturityDateYear)
+# names(BONDInputData) <- c("Frequency", "CouponRate", "Par",
+#   "YieldToMaturity", "BondPrice", 
+#   "SettlementDateMonth", "SettlementDateDay", "SettlementDateYear", 
+#   "MaturityDateMonth", "MaturityDateDay", "MaturityDateYear")
+Tau[1] <- TimeToMaturity(BONDInputData) # Set first tau to be maturity
+# x filled with initial guesses
+x <- numeric(NFactors)   # b (Level, slope, and curvatures)
+if(NTau < 2)Sc <- numeric(1)
+if(NTau >= 2) Sc <- numeric(NTau) # Scalars
+for(i in 1:NFactors){
+  if(i==1){
+    x[1] <- MarketCMTRates[30]    # Level: Might be NA
+    if(is.na(x[1]))x[1] <- 5.0     # Thus, set to 5%
+    Sc[1] <- 0.0
+  }
+  if(i==2){
+    x[2] <- MarketCMTRates[1] - MarketCMTRates[30] # Slope
+    if(is.na(x[2]))x[2] <- 0.0     # Defaults to zero
+    Sc[1] <- Tau[1]
+  }
+  if(i>2){
+    x[i] <- 0
+    Sc[i-2] <- Tau[i-2]
+  }
+}
+#
+# Functions to run CMT and Spreads LSC and related analyses
+#
+source('SPREADS Functions.R') # Various Bond functions
+# Illustgrate DiffSwRates: Given coefficients for discount curve based on LSC, 
+#  estimate sum squared difference
+Answer <- DiffSwRates(x, NFactors, Sc, NBaseCurve, MarketCMTRates)
+# optimx R package provides minimization routine to select LSC coefficients 
+# to minimize squared differences #, all.methods=TRUE (uses all methods)
+#
+# CMT Analysis
+#
+OptOutput <- optimx(par=x, fn=DiffSwRates, NFac = NFactors, S = Sc, 
+  NCMTs = NBaseCurve, MSR = MarketCMTRates, 
+  method=c('nlminb'), control=list(save.failures=FALSE, maxit=2500)) 
+# If 'nlminb' failed, then try a few more optimization routines, 
+#  quit when first one produces answer
+Counter = 0
+while(is.na(OptOutput$p1)){
+  Counter = Counter + 1
+  if(Counter == 1)OptOutput <- optimx(par=x, fn=DiffSwRates, NFac = NFactors, 
+    S = Sc, NCMTs = NBaseCurve, MSR = MarketCMTRates, 
+    method=c('BFGS'), control=list(save.failures=FALSE, maxit=2500)) 
+  if(Counter == 2)OptOutput <- optimx(par=x, fn=DiffSwRates, NFac = NFactors, 
+    S = Sc, NCMTs = NBaseCurve, MSR = MarketCMTRates, 
+    method=c('Nelder-Mead'), control=list(save.failures=FALSE, maxit=2500))
+  if(Counter == 3)OptOutput <- optimx(par=x, fn=DiffSwRates, NFac = NFactors, 
+    S = Sc, NCMTs = NBaseCurve, MSR = MarketCMTRates, 
+    method=c('L-BFGS-B'), control=list(save.failures=FALSE, maxit=2500)) 
+}
+# is.data.frame(OptOutput) # yes, it is
+# x <- attr(OptOutput, "details")
+OptMethod <- rownames(OptOutput[1]) # Method that provided answer, see Nash
+y <- 0
+y <- numeric(NFactors)
+for(i in 1:NFactors){
+  if(i==1)y[1] <- OptOutput$p1[1]
+  if(i==2)y[2] <- OptOutput$p2[1]
+  if(i==3)y[3] <- OptOutput$p3[1]
+  if(i==4)y[4] <- OptOutput$p4[1]
+  if(i==5)y[5] <- OptOutput$p5[1]
+  if(i==6)y[6] <- OptOutput$p6[1]
+  if(i==7)y[7] <- OptOutput$p7[1]
+  if(i==8)y[8] <- OptOutput$p8[1]
+}
+```
+**LSC Fit of CMT Data**:  
+Number of Factors: `r NFactors`  
+Level: `r percent(y[1]/100)`    
+Slope: `r percent(y[2]/100)`  
+Curvature1: `r percent(y[3]/100)`  
+Curvature2: `r percent(y[4]/100)`  
+ 
+``` {r, echo = FALSE}
+# Based on LSC parameters, y, and other inputs, NFactors, Sc, NBaseCurve, 
+#  provide estimates of fitted input rates
+SREstimates <- CMTRates(y, NFactors, Sc, NBaseCurve)
+```
+  
+   
+**Estimated CMT Spot Rates (1-30)**:  
+``` {r, echo = FALSE}
+SREstimates  
+# Based on LSC parameters, y, and other inputs, NFactors, Sc, NBaseCurve, 
+#  provide estimates of fitted discount rates
+DREstimates <- DiscountRates(y, NFactors, Sc, NBaseCurve)
+```
+**Estimated CMT Discount Rates (1-30)**:  
+``` {r, echo = FALSE}
+DREstimates
+#
+# Spread 1 Analysis (BB curve, Bloomberg)
+#
+OptOutput <- optimx(par=x, fn=DiffSwRates, NFac = NFactors, S = Sc, 
+  NCMTs = NBaseCurve, MSR = MarketSPR1Rates, 
+  method=c('nlminb'), control=list(save.failures=FALSE, maxit=2500)) 
+# If 'nlminb' failed, then try a few more optimization routines, 
+#  quit when first one produces answer
+Counter = 0
+while(is.na(OptOutput$p1)){
+  Counter = Counter + 1
+  if(Counter == 1)OptOutput <- optimx(par=x, fn=DiffSwRates, NFac = NFactors, 
+    S = Sc, NCMTs = NBaseCurve, MSR = MarketSPR1Rates, 
+    method=c('BFGS'), control=list(save.failures=FALSE, maxit=2500)) 
+  if(Counter == 2)OptOutput <- optimx(par=x, fn=DiffSwRates, NFac = NFactors, 
+    S = Sc, NCMTs = NBaseCurve, MSR = MarketSPR1Rates, 
+    method=c('Nelder-Mead'), control=list(save.failures=FALSE, maxit=2500))
+  if(Counter == 3)OptOutput <- optimx(par=x, fn=DiffSwRates, NFac = NFactors, 
+    S = Sc, NCMTs = NBaseCurve, MSR = MarketSPR1Rates, 
+    method=c('L-BFGS-B'), control=list(save.failures=FALSE, maxit=2500)) 
+}
+# is.data.frame(OptOutput) # yes, it is
+# x <- attr(OptOutput, "details")
+OptMethod <- rownames(OptOutput[1]) # Method that provided answer, see Nash
+ySPR1 <- 0
+ySPR1 <- numeric(NFactors)
+for(i in 1:NFactors){
+  if(i==1)ySPR1[1] <- OptOutput$p1[1]
+  if(i==2)ySPR1[2] <- OptOutput$p2[1]
+  if(i==3)ySPR1[3] <- OptOutput$p3[1]
+  if(i==4)ySPR1[4] <- OptOutput$p4[1]
+  if(i==5)ySPR1[5] <- OptOutput$p5[1]
+  if(i==6)ySPR1[6] <- OptOutput$p6[1]
+  if(i==7)ySPR1[7] <- OptOutput$p7[1]
+  if(i==8)ySPR1[8] <- OptOutput$p8[1]
+}
+```
+**LSC Fit of Spread Over CMT Data**:  
+Number of Factors: `r NFactors`  
+Level: `r percent(ySPR1[1]/100)`    
+Slope: `r percent(ySPR1[2]/100)`  
+Curvature1: `r percent(ySPR1[3]/100)`  
+Curvature2: `r percent(ySPR1[4]/100)`  
+ 
+``` {r, echo = FALSE}
+# Based on LSC parameters, y, and other inputs, NFactors, Sc, NBaseCurve, 
+#  provide estimates of fitted input rates
+SRSPR1Estimates <- CMTRates(ySPR1, NFactors, Sc, NBaseCurve)
+```
+**Estimated Spot Rate Spreads Over CMT (1-30)**:  
+``` {r, echo = FALSE}
+SRSPR1Estimates
+# Based on LSC parameters, y, and other inputs, NFactors, Sc, NBaseCurve, 
+#  provide estimates of fitted discount rates
+DRSPR1Estimates <- DiscountRates(ySPR1, NFactors, Sc, NBaseCurve)
+```
+**Estimated Discount Rate Spreads Over CMT (1-30)**:  
+``` {r, echo = FALSE}
+DRSPR1Estimates
+#
+# Plots: Range of y axis in input file
+#
+Maturity <- seq(1:NBaseCurve) # Maturity vector for plotting
+# Plot footers
+NFs = paste0('LSC Factors = ', NFactors)
+Scs = paste0(', Scalars = ')
+if(NFactors==1){
+  Scs = paste0('')
+  Ts = paste0('')
+}
+Tau1R = round(Tau[1],2)
+if(NFactors==1)Ts = paste0("None")
+if(NFactors==2)Ts = paste0(Tau1R)
+if(NFactors==3)Ts = paste0(Tau1R)
+if(NFactors==4)Ts = paste0(Tau1R, ', ', Tau[2])
+if(NFactors==5)Ts = paste0(Tau1R, ', ', Tau[2], ', ', Tau[3])
+if(NFactors==6)Ts = paste0(Tau1R, ', ', Tau[2], ', ', Tau[3], ', ', Tau[4])
+if(NFactors==7)Ts = paste0(Tau1R, ', ', Tau[2], ', ', Tau[3], ', ', Tau[4],
+  ', ', Tau[5])
+if(NFactors==8)Ts = paste0(Tau1R, ', ', Tau[2], ', ', Tau[3], ', ', Tau[4], 
+  ', ', Tau[5], ', ', Tau[6])
+
+# ```
+# 
+# ``` {r, echo = FALSE}
+par(family = 'Times New Roman') 
+sTitle = paste(NFs, Scs, Ts)
+MaxValue = max(Maturity, na.rm=TRUE)
+MinValue = min(0.0, Maturity, na.rm=TRUE)
+xlim1 = c(1:2)
+xlim1[1] = MinValue
+xlim1[2] = MaxValue
+if(FixRange){
+  MaxValue = FRMax
+  MinValue = FRMin
+} else {
+  MaxValue = max(MarketCMTRates, SREstimates, DREstimates, 
+    MarketSPR1Rates, SRSPR1Estimates, DRSPR1Estimates, na.rm=TRUE)
+  MinValue = min(MarketCMTRates, SREstimates, DREstimates, 
+    MarketSPR1Rates, SRSPR1Estimates, DRSPR1Estimates, na.rm=TRUE)
+}
+ylim1 = c(1:2)
+ylim1[1] = MinValue
+ylim1[2] = MaxValue
+legtxt = c("CMT","CMT Fit","CMT DR","BB","BB Fit","BB DR")
+mTitle = "UST and BB Yields"
+xTitle = "Maturity"
+yTitle = "Rates"
+lTitle = "Variable"
+plot(Maturity, MarketCMTRates, type = "p", main = mTitle,
+  sub = sTitle, xlab = xTitle, ylab = yTitle, col = "blue", xlim = xlim1,
+  ylim = ylim1, pch = 1, cex = 0.5)
+lines(Maturity, SREstimates, type = "b", col ="red", xlim = xlim1,
+  ylim = ylim1, pch = 2, cex = 0.5)
+lines(Maturity, DREstimates, type = "b", col ="green", xlim = xlim1,
+  ylim = ylim1, pch = 3, cex = 0.5)
+lines(Maturity, MarketSPR1Rates, type = "p", col ="blue", xlim = xlim1,
+      ylim = ylim1, pch = 4, cex = 0.5)
+lines(Maturity, SRSPR1Estimates, type = "b", col ="red", xlim = xlim1,
+      ylim = ylim1, pch = 5, cex = 0.5)
+lines(Maturity, DRSPR1Estimates, type = "b", col ="green", xlim = xlim1,
+      ylim = ylim1, pch = 6, cex = 0.5)
+legend("topleft", legtxt, cex = 0.75, lwd = c(1,1,1,1,1,1),
+  lty = c(2,2,2,2,2,2),
+  col = c("blue","red","green","blue","red","green"), pch = c(1,2,3,4,5,6),
+  bty = "n", title = lTitle)
+```

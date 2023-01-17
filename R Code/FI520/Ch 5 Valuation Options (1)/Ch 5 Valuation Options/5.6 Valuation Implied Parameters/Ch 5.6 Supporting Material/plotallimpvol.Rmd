@@ -1,0 +1,161 @@
+---
+title: "Implied volatility for Apple options"
+author: "Robert McDonald"
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    toc: yes
+  word_document: default
+---
+
+```{r, echo=FALSE}
+library(knitr)
+ticker <- 'Apple'
+opts_chunk$set(echo=FALSE)
+
+```
+
+# Introduction
+
+This is document uses Optionmetrics data to examine Apple options from
+September 2013 to August 2014. The document is constructed using
+RMarkdown, and processed using RStudio. The original RMarkdown
+document is on Dropbox and available
+[here](https://www.dropbox.com/s/9qwj4s62bacqsyl/plotallimpvol.Rmd?dl=0)
+
+# Volume and Open Interest for `r ticker`, Sept 2013 - August 2014
+
+The following plots show option volume and open interest for 
+`r ticker`. The vertical lines in each plot mark earnings 
+announcement dates.
+
+Apple shares split 7-for-1 on June 9, 2014. In order to provide continuity, the volume and open interest amounts are normalized by dividing by 7 after that date.
+
+
+```{r, results='asis'}
+## file to read optionmetrics data
+
+# setwd('C:/RDerivatives')
+startdate <- as.Date('2013/09/01')
+enddate <- as.Date('2014/08/30')
+## fn <- 'volume.csv'
+fn <- 'aapl_opts.csv'
+fnstk <- 'aapl_stock.csv'
+loadfile <- TRUE
+## loadfile <- FALSE
+
+earndates <- as.Date(c('2015/01/27', '2014/10/20', '2014/04/23',
+	'2014/07/22', '2014/01/27', '2013/10/28', '2013/07/23',
+	'2013/04/23', '2013/01/23', '2012/10/25', '2012/07/24',
+	'2012/04/24', '2012/01/24'))
+
+earndates <- sort(earndates)
+splitdate <- as.Date('2014/06/09') ## 7 for 1
+
+if (loadfile) {
+    load('appldata.Rdata')
+} else {
+    x <- read.csv(fn, stringsAsFactors=FALSE, nrows=500)
+    cc <- sapply(1:length(x), function(i) class(x[,i]))
+    x <- read.csv(fn, stringsAsFactors=FALSE, colClasses=cc)
+    x$strike_price <- x$strike_price/1000
+    x$date <- as.Date(x$date)
+    x$exdate <- as.Date(x$exdate)
+    x[x$last_date=="", 'last_date'] <- NA
+    x$last_date <- as.Date(x$last_date)
+    x$daysexp <- as.numeric(x$exdate - x$date)
+    stk <- read.csv(fnstk, stringsAsFactors=FALSE)[,c(2,3)]
+    stk$date <- as.Date(stk$date,"%Y/%m/%d")
+    x <- merge(x, stk[, c('date', 'close')],
+                   by.x='date', by.y='date', all.x=TRUE)    
+    save(x, file='appldata.Rdata')
+}
+x <- x[x$date <= enddate & x$date >= startdate, ]
+
+```
+
+```{r, results='asis'}
+## plot volume and open interest over the year by puts/calls,
+## moneyness, expiry
+y <- with(x, aggregate(cbind(open_interest=open_interest/cfadj, 
+                             volume=volume/cfadj),
+               by=list(cp_flag = cp_flag, date = date), FUN=sum))
+yc <- y[y$cp_flag=='C', ]
+yp <- y[y$cp_flag=='P', ]
+```
+
+## Call and Put Option Volume
+
+```{r, echo=FALSE, results='asis'}
+plot(yc$date, yc$volume, cex=0.5,
+     xlab='Date', main='Call Volume')
+abline(v=earndates, lty=2)
+plot(yp$date, yp$volume, cex=0.5,
+     xlab='Date', main='Put Volume')
+abline(v=earndates, lty=2)
+```
+
+## Call and Put Open Interest
+
+```{r, echo=FALSE, results='asis'}
+plot(yc$date, yc$open_interest, cex=0.5,
+     xlab='Date', main='Call Open Interest')
+abline(v=earndates, lty=2)
+plot(yp$date, yp$open_interest, cex=0.5,
+     xlab='Date', main='Put Open Interest')
+abline(v=earndates, lty=2)
+```
+
+
+# Implied volatilities for Apple, Sept 2013 - August 2014
+
+The following plots show implied volatilities for every day in the period. The
+plots show only implied volatilities for 5 sets of options. These are
+determined by sorting the existing times to expiration on each day, and
+plotting implied volatilities for the 2nd nearest expiration, 4th nearest, out to the 10th nearest time to expiration. There are always current week and
+following week options, so the nearest to expiration options 
+have times to expiration varying from 7 to 11 days.
+
+The dashed vertical line on each plot is that day's closing stock price.
+
+Earnings announcement dates for `r ticker` were 
+`r earndates[8:10]` and `r earndates[11]`. 
+These are noted in the plot title for those days.
+
+
+```{r, echo=FALSE, results='asis'}
+xp <- x[x$cp_flag=='P', ]
+wk <- c(2, 4, 6, 8, 10)
+colors <- c('red', 'green', 'blue', 'magenta', 'black')
+alldates <- sort(unique(xp$date))
+previousdate <- as.POSIXlt(alldates[1])
+cat('\n\n##', strftime(previousdate, '%B, %Y'), '\n\n')
+for (i in alldates) {
+    ip <- as.POSIXlt(as.Date(i, origin="1970-01-01"))  
+    if (ip$mon != previousdate$mon) {
+      cat('\n\n## ', strftime(ip, '%B, %Y'), '\n\n')
+    }
+    earntext <- ''
+    if (as.Date(i, origin = "1970-01-01") %in% earndates) earntext <- '(Earnings Announcement)'
+    tmp <- subset(xp[xp$date==i,])
+    exdate <- sort(unique(tmp$exdate))
+    xvar <- tmp$strike_price[tmp$exdate==exdate[wk[1]]]
+    yvar <-tmp$impl_volatility[tmp$exdate==exdate[wk[1]]] 
+    plot(xvar, yvar, cex=0.25, col=colors[1],
+         main=paste('Apple puts: ', tmp$date[1], earntext, 
+         		   ' (Price = ', tmp$close[1], ')', sep=''),
+         xlab='Strike', ylab='Implied volatility',
+         xlim=c(.6*min(xvar), 1.4*max(xvar)),
+         ylim=c(0, 1.5))
+    for (j in 2:length(wk)) {
+        points(tmp$strike_price[tmp$exdate==exdate[wk[j]]],
+         tmp$impl_volatility[tmp$exdate==exdate[wk[j]]], cex=0.25, col=colors[j]) 
+    }
+    abline(v=tmp$close[1], lty=2)
+    legend('topleft', legend=c(paste(exdate[wk] - tmp$date[1], 'days to expiry')),
+           col=colors, pch=1, cex=0.5)
+    previousdate <- ip
+}
+
+```
