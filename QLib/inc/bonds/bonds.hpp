@@ -3,7 +3,7 @@
 /*
     Bond Calculation Header File
 */
-
+#include <unsupported/Eigen/NonLinearOptimization>  //newton rhapson
 #include <iostream>
 #include <boost/date_time.hpp>      // https://www.boost.org/doc/libs/1_31_0/libs/date_time/doc/class_date.html
 #include <vector>
@@ -17,7 +17,7 @@ using namespace std;
 
 namespace QLib
 {
-
+    namespace Bonds{
         /*
             Inputs Needed (with examples based on data above):
             • Settle date (1/17/18)
@@ -34,6 +34,7 @@ namespace QLib
 
     double bondF(string current_date, string settle_date, string maturity_date, unsigned int coupon_payment_frequency)
     {
+       
         // convert strings into bt::date objects 
         // allows +- operations with sepcification for time resolution .days, .weeks, .years etc
         // assuming gregorian calendar
@@ -57,6 +58,7 @@ namespace QLib
 
     int bondNRemaining(string current_date, string settle_date, string maturity_date, unsigned int coupon_payment_frequency)
     {
+       
         // convert strings into bt::date objects 
         // allows +- operations with sepcification for time resolution .days, .weeks, .years etc
         // assuming gregorian calendar
@@ -76,6 +78,8 @@ namespace QLib
         return std::distance(closest_prior_payment,payment_schedule.end());
     };
 
+
+
     /*
     double bondMarketValue(string current, string settle, string maturity, unsigned int coupon_payment_frequency, double coupon_rate);
     
@@ -85,5 +89,5 @@ namespace QLib
         return bondMarketValue(current,settle,maturity,coupon_payment_frequency,coupon_rate) - bondAccruedInterest(current,settle,maturity,coupon_payment_frequency,coupon_rate);
     };
     */
- 
+    };
 };
