@@ -1,5 +1,8 @@
 This is the repository for FI520 class for quant finance
+!!!!!!
+Not being developed -> more of an exercise with CMake and Pybind11 to learn project structuring and build systems.
 
+!!!!!!
 
 Project Structure
 - Dep
